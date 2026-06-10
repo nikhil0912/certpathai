@@ -3,6 +3,8 @@
 > **Microsoft Agents League Hackathon 2026 · Reasoning Agents Track**
 > Built with Microsoft Foundry · Foundry IQ · Work IQ · Fabric IQ
 
+![CertPathAI Architecture](architecture.png)
+
 ---
 
 ## 📋 Overview
