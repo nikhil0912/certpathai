@@ -1,0 +1,77 @@
+[
+  {
+    "learner_id": "L-1001",
+    "name": "Alex Chen",
+    "role": "Cloud Engineer",
+    "target_certification": "AZ-204",
+    "available_hours_per_week": 8,
+    "current_skills": [
+      "Python",
+      "REST APIs",
+      "Azure Basics"
+    ],
+    "practice_score_avg": 62,
+    "hours_studied": 12,
+    "weeks_until_target": 6
+  },
+  {
+    "learner_id": "L-1002",
+    "name": "Jordan Smith",
+    "role": "DevOps Engineer",
+    "target_certification": "AZ-400",
+    "available_hours_per_week": 10,
+    "current_skills": [
+      "CI/CD",
+      "Docker",
+      "GitHub Actions"
+    ],
+    "practice_score_avg": 78,
+    "hours_studied": 22,
+    "weeks_until_target": 4
+  },
+  {
+    "learner_id": "L-1003",
+    "name": "Morgan Lee",
+    "role": "Data Engineer",
+    "target_certification": "DP-203",
+    "available_hours_per_week": 6,
+    "current_skills": [
+      "SQL",
+      "Python",
+      "Spark Basics"
+    ],
+    "practice_score_avg": 71,
+    "hours_studied": 18,
+    "weeks_until_target": 5
+  },
+  {
+    "learner_id": "L-1004",
+    "name": "Riley Park",
+    "role": "Cloud Engineer",
+    "target_certification": "AZ-305",
+    "available_hours_per_week": 12,
+    "current_skills": [
+      "AZ-204 Certified",
+      "Azure Networking",
+      "Security"
+    ],
+    "practice_score_avg": 84,
+    "hours_studied": 28,
+    "weeks_until_target": 3
+  },
+  {
+    "learner_id": "L-1005",
+    "name": "Casey Wright",
+    "role": "Data Engineer",
+    "target_certification": "DP-600",
+    "available_hours_per_week": 7,
+    "current_skills": [
+      "Power BI",
+      "SQL",
+      "Azure Data Factory"
+    ],
+    "practice_score_avg": 55,
+    "hours_studied": 9,
+    "weeks_until_target": 8
+  }
+]
