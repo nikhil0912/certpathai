@@ -1,0 +1,113 @@
+{
+  "certifications": [
+    {
+      "id": "AZ-204",
+      "name": "Developing Solutions for Microsoft Azure",
+      "role_alignment": ["Cloud Engineer", "Software Engineer"],
+      "prerequisites": [],
+      "skills": [
+        "Azure App Service", "Azure Functions", "Blob Storage",
+        "Cosmos DB", "API Management", "Azure AD Authentication"
+      ],
+      "recommended_hours": 20,
+      "domain_weights": {
+        "Develop Azure compute solutions": 0.25,
+        "Develop for Azure storage": 0.15,
+        "Implement Azure security": 0.20,
+        "Monitor and optimize": 0.15,
+        "Connect and consume services": 0.15,
+        "Implement API Management": 0.10
+      },
+      "pass_threshold": 70,
+      "exam_duration_mins": 150
+    },
+    {
+      "id": "AZ-400",
+      "name": "Designing and Implementing Microsoft DevOps Solutions",
+      "role_alignment": ["DevOps Engineer", "Cloud Engineer"],
+      "prerequisites": ["AZ-204"],
+      "skills": [
+        "CI/CD Pipelines", "GitHub Actions", "Azure DevOps",
+        "Infrastructure as Code", "Monitoring", "Security Scanning"
+      ],
+      "recommended_hours": 25,
+      "domain_weights": {
+        "Configure processes and communications": 0.10,
+        "Design and implement source control": 0.15,
+        "Design and implement build and release pipelines": 0.40,
+        "Develop a security compliance plan": 0.15,
+        "Implement an instrumentation strategy": 0.20
+      },
+      "pass_threshold": 70,
+      "exam_duration_mins": 150
+    },
+    {
+      "id": "AZ-305",
+      "name": "Designing Microsoft Azure Infrastructure Solutions",
+      "role_alignment": ["Cloud Engineer", "Solutions Architect"],
+      "prerequisites": ["AZ-204"],
+      "skills": [
+        "Azure Networking", "High Availability", "Disaster Recovery",
+        "Identity and Access", "Data Storage Strategy", "Cost Optimization"
+      ],
+      "recommended_hours": 30,
+      "domain_weights": {
+        "Design identity and access solutions": 0.25,
+        "Design data storage solutions": 0.25,
+        "Design business continuity solutions": 0.25,
+        "Design infrastructure solutions": 0.25
+      },
+      "pass_threshold": 70,
+      "exam_duration_mins": 150
+    },
+    {
+      "id": "DP-203",
+      "name": "Data Engineering on Microsoft Azure",
+      "role_alignment": ["Data Engineer"],
+      "prerequisites": [],
+      "skills": [
+        "Azure Synapse Analytics", "Azure Data Factory",
+        "Apache Spark", "Stream Analytics", "Data Lake Storage"
+      ],
+      "recommended_hours": 22,
+      "domain_weights": {
+        "Design and implement data storage": 0.40,
+        "Design and develop data processing": 0.25,
+        "Design and implement data security": 0.20,
+        "Monitor and optimize data storage": 0.15
+      },
+      "pass_threshold": 70,
+      "exam_duration_mins": 150
+    },
+    {
+      "id": "DP-600",
+      "name": "Implementing Analytics Solutions Using Microsoft Fabric",
+      "role_alignment": ["Data Engineer", "Data Analyst"],
+      "prerequisites": ["DP-203"],
+      "skills": [
+        "Microsoft Fabric", "Power BI", "OneLake",
+        "Lakehouse", "Data Pipelines", "DAX", "KQL"
+      ],
+      "recommended_hours": 28,
+      "domain_weights": {
+        "Plan, implement, and manage a solution": 0.20,
+        "Prepare and serve data": 0.30,
+        "Implement and manage semantic models": 0.25,
+        "Explore and analyze data": 0.25
+      },
+      "pass_threshold": 70,
+      "exam_duration_mins": 150
+    }
+  ],
+  "role_cert_map": {
+    "Cloud Engineer": ["AZ-204", "AZ-305"],
+    "DevOps Engineer": ["AZ-400"],
+    "Data Engineer": ["DP-203", "DP-600"],
+    "Solutions Architect": ["AZ-305"]
+  },
+  "readiness_thresholds": {
+    "GO": { "min_practice_score": 75, "min_hours_studied": 18 },
+    "CONDITIONAL_GO": { "min_practice_score": 65, "min_hours_studied": 12 },
+    "NOT_YET": { "below_practice_score": 65, "below_hours_studied": 12 }
+  }
+}

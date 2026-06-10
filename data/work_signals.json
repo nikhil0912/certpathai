@@ -1,0 +1,52 @@
+[
+  {
+    "employee_id": "EMP-001",
+    "learner_id": "L-1001",
+    "meeting_hours_per_week": 20,
+    "focus_hours_per_week": 12,
+    "preferred_learning_slot": "Morning",
+    "peak_focus_days": ["Tuesday", "Wednesday", "Thursday"],
+    "heavy_meeting_days": ["Monday", "Friday"],
+    "avg_daily_focus_blocks": 2
+  },
+  {
+    "employee_id": "EMP-002",
+    "learner_id": "L-1002",
+    "meeting_hours_per_week": 14,
+    "focus_hours_per_week": 18,
+    "preferred_learning_slot": "Afternoon",
+    "peak_focus_days": ["Monday", "Wednesday", "Friday"],
+    "heavy_meeting_days": ["Tuesday"],
+    "avg_daily_focus_blocks": 3
+  },
+  {
+    "employee_id": "EMP-003",
+    "learner_id": "L-1003",
+    "meeting_hours_per_week": 24,
+    "focus_hours_per_week": 8,
+    "preferred_learning_slot": "Evening",
+    "peak_focus_days": ["Wednesday", "Thursday"],
+    "heavy_meeting_days": ["Monday", "Tuesday", "Friday"],
+    "avg_daily_focus_blocks": 1
+  },
+  {
+    "employee_id": "EMP-004",
+    "learner_id": "L-1004",
+    "meeting_hours_per_week": 10,
+    "focus_hours_per_week": 22,
+    "preferred_learning_slot": "Morning",
+    "peak_focus_days": ["Monday", "Tuesday", "Thursday", "Friday"],
+    "heavy_meeting_days": ["Wednesday"],
+    "avg_daily_focus_blocks": 4
+  },
+  {
+    "employee_id": "EMP-005",
+    "learner_id": "L-1005",
+    "meeting_hours_per_week": 18,
+    "focus_hours_per_week": 10,
+    "preferred_learning_slot": "Morning",
+    "peak_focus_days": ["Tuesday", "Thursday"],
+    "heavy_meeting_days": ["Monday", "Wednesday", "Friday"],
+    "avg_daily_focus_blocks": 2
+  }
+]
