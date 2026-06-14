@@ -7,6 +7,7 @@ Run with: streamlit run app.py
 
 import streamlit as st
 import sys
+import time
 from pathlib import Path
 
 # Add project root to path
@@ -18,6 +19,7 @@ from agents.agent3_planner import run as run_planner
 from agents.agent4_engagement import run as run_engagement
 from agents.agent5_assessment import run as run_assessment
 from agents.agent6_manager import run as run_manager
+from guardrails import run_guardrails, run_all_guardrails
 
 # ── Page config ──────────────────────────────────────────────
 st.set_page_config(
@@ -140,16 +142,81 @@ with st.sidebar:
 if "Individual" in mode:
     if run_all:
         with st.spinner("Running 6-agent reasoning pipeline..."):
-            # Run all agents in sequence
+            # ── Run pipeline with timing ──────────────────────────
+            t0 = time.time()
+            trace_log = []
+
+            t = time.time()
             profile = run_profiler(learner_id=learner_id)
+            trace_log.append({
+                "agent": "Agent 1 — Learner Profiler",
+                "duration_ms": round((time.time()-t)*1000),
+                "guardrail": run_guardrails("Learner Profiler", profile)
+            })
+
+            t = time.time()
             curator = run_curator(profile=profile)
+            trace_log.append({
+                "agent": "Agent 2 — Learning Path Curator",
+                "duration_ms": round((time.time()-t)*1000),
+                "guardrail": run_guardrails("Learning Path Curator", curator)
+            })
+
+            t = time.time()
             planner = run_planner(profile=profile, curator=curator)
+            trace_log.append({
+                "agent": "Agent 3 — Study Plan Generator",
+                "duration_ms": round((time.time()-t)*1000),
+                "guardrail": run_guardrails("Study Plan Generator", planner)
+            })
+
+            t = time.time()
             engagement = run_engagement(profile=profile, study_plan=planner)
+            trace_log.append({
+                "agent": "Agent 4 — Engagement Agent",
+                "duration_ms": round((time.time()-t)*1000),
+                "guardrail": run_guardrails("Engagement Agent", engagement)
+            })
+
+            t = time.time()
             assessment = run_assessment(profile=profile)
+            trace_log.append({
+                "agent": "Agent 5 — Assessment Agent",
+                "duration_ms": round((time.time()-t)*1000),
+                "guardrail": run_guardrails("Assessment Agent", assessment)
+            })
 
             # Agent 6 — single learner decision
             from agents.agent6_manager import make_booking_decision
+            t = time.time()
             decision = make_booking_decision(profile, assessment, engagement)
+            team_output = run_manager()
+            trace_log.append({
+                "agent": "Agent 6 — Manager Insights",
+                "duration_ms": round((time.time()-t)*1000),
+                "guardrail": run_guardrails("Manager Insights Agent", team_output)
+            })
+
+            total_ms = round((time.time()-t0)*1000)
+            st.session_state["trace_log"] = trace_log
+            st.session_state["total_ms"] = total_ms
+
+        # ── Guardrail Summary Banner ──────────────────────────────
+        all_passed = all(t["guardrail"].passed for t in trace_log)
+        total_rules = sum(t["guardrail"].rules_checked for t in trace_log)
+        total_violations = sum(len(t["guardrail"].violations) for t in trace_log)
+
+        if all_passed:
+            st.success(
+                f"✅ **Guardrail Pipeline Passed** — "
+                f"{total_rules} rules checked · 0 violations · "
+                f"Pipeline completed in {st.session_state.get('total_ms', 0)}ms"
+            )
+        else:
+            st.error(
+                f"❌ **Guardrail Violations Found** — "
+                f"{total_violations} violation(s) across {total_rules} rules"
+            )
 
         # ── Agent 1: Profiler ─────────────────────────────────
         st.markdown("### Agent 1 — Learner Profiler")
@@ -329,6 +396,54 @@ if "Individual" in mode:
 
         st.write(f"**Reason:** {decision.get('reason')}")
         st.write(f"**Recommended Action:** {decision.get('action')}")
+
+        # ── Pipeline Trace & Guardrails ───────────────────────────
+        st.divider()
+        st.markdown("### 🔍 Pipeline Trace — Guardrail Audit Log")
+        st.caption("17-rule guardrail pipeline · Timing · Full auditability")
+
+        trace_log = st.session_state.get("trace_log", [])
+        total_ms = st.session_state.get("total_ms", 0)
+
+        if trace_log:
+            st.markdown(
+                f"**Total pipeline time:** `{total_ms}ms` · "
+                f"**Agents:** 6 · **Rules checked:** "
+                f"{sum(t['guardrail'].rules_checked for t in trace_log)} · "
+                f"**All passed:** "
+                f"{'✅ Yes' if all(t['guardrail'].passed for t in trace_log) else '❌ No'}"
+            )
+            st.markdown("")
+
+            for entry in trace_log:
+                g = entry["guardrail"]
+                status_icon = "✅" if g.passed else "❌"
+                color = "green" if g.passed else "red"
+                with st.expander(
+                    f"{status_icon} {entry['agent']} — "
+                    f"{entry['duration_ms']}ms · "
+                    f"{g.rules_passed}/{g.rules_checked} rules passed"
+                ):
+                    col_a, col_b, col_c = st.columns(3)
+                    with col_a:
+                        st.metric("Duration", f"{entry['duration_ms']}ms")
+                    with col_b:
+                        st.metric("Rules Passed",
+                                  f"{g.rules_passed}/{g.rules_checked}")
+                    with col_c:
+                        st.metric("Violations", len(g.violations))
+
+                    if g.violations:
+                        for v in g.violations:
+                            st.error(f"❌ **{v['rule']}:** {v['message']}")
+                    if g.warnings:
+                        for w in g.warnings:
+                            st.warning(f"⚠️ **{w['rule']}:** {w['message']}")
+                    if not g.violations and not g.warnings:
+                        st.success(
+                            "All guardrail rules passed — "
+                            "output is safe, grounded, and auditable."
+                        )
 
     else:
         st.info("👈 Select a learner and click **▶️ Run Full Pipeline** to start the 6-agent reasoning chain.")
