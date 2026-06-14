@@ -100,6 +100,25 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# ── Demo Mode Banner ──────────────────────────────────────────
+st.markdown("""
+<div style="background: linear-gradient(90deg, rgba(74,158,255,0.08) 0%, rgba(196,132,252,0.08) 100%);
+     border: 1px solid rgba(74,158,255,0.25);
+     border-radius: 8px; padding: 10px 18px; margin-bottom: 18px;
+     display: flex; align-items: center; gap: 12px;">
+  <span style="font-size: 16px;">🟢</span>
+  <div style="flex: 1;">
+    <span style="color: #4ade80; font-weight: 600; font-size: 13px;">DEMO MODE</span>
+    <span style="color: #94a3b8; font-size: 12px; margin-left: 8px;">
+      Running fully offline · All data is synthetic · No Azure credentials required · Pipeline completes in &lt; 50ms
+    </span>
+  </div>
+  <span style="font-family: monospace; color: #64748b; font-size: 11px;">
+    v1.0 · 6 agents · 17 guardrails · 33 tests
+  </span>
+</div>
+""", unsafe_allow_html=True)
+
 # ── Sidebar ───────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### 🧠 Agent Control Panel")
@@ -150,40 +169,55 @@ if "Individual" in mode:
             profile = run_profiler(learner_id=learner_id)
             trace_log.append({
                 "agent": "Agent 1 — Learner Profiler",
+                "pattern": "Fabric IQ Semantic Gap Analysis",
+                "iq_layer": "Fabric IQ",
                 "duration_ms": round((time.time()-t)*1000),
-                "guardrail": run_guardrails("Learner Profiler", profile)
+                "guardrail": run_guardrails("Learner Profiler", profile),
+                "output": profile,
             })
 
             t = time.time()
             curator = run_curator(profile=profile)
             trace_log.append({
                 "agent": "Agent 2 — Learning Path Curator",
+                "pattern": "Foundry IQ Grounded Retrieval",
+                "iq_layer": "Foundry IQ",
                 "duration_ms": round((time.time()-t)*1000),
-                "guardrail": run_guardrails("Learning Path Curator", curator)
+                "guardrail": run_guardrails("Learning Path Curator", curator),
+                "output": curator,
             })
 
             t = time.time()
             planner = run_planner(profile=profile, curator=curator)
             trace_log.append({
                 "agent": "Agent 3 — Study Plan Generator",
+                "pattern": "Planner → Executor (Largest Remainder)",
+                "iq_layer": "Work IQ",
                 "duration_ms": round((time.time()-t)*1000),
-                "guardrail": run_guardrails("Study Plan Generator", planner)
+                "guardrail": run_guardrails("Study Plan Generator", planner),
+                "output": planner,
             })
 
             t = time.time()
             engagement = run_engagement(profile=profile, study_plan=planner)
             trace_log.append({
                 "agent": "Agent 4 — Engagement Agent",
+                "pattern": "Work IQ Rhythm Signals",
+                "iq_layer": "Work IQ",
                 "duration_ms": round((time.time()-t)*1000),
-                "guardrail": run_guardrails("Engagement Agent", engagement)
+                "guardrail": run_guardrails("Engagement Agent", engagement),
+                "output": engagement,
             })
 
             t = time.time()
             assessment = run_assessment(profile=profile)
             trace_log.append({
                 "agent": "Agent 5 — Assessment Agent",
+                "pattern": "Critic → Verifier (Grounded Questions)",
+                "iq_layer": "Foundry IQ",
                 "duration_ms": round((time.time()-t)*1000),
-                "guardrail": run_guardrails("Assessment Agent", assessment)
+                "guardrail": run_guardrails("Assessment Agent", assessment),
+                "output": assessment,
             })
 
             # Agent 6 — single learner decision
@@ -193,8 +227,11 @@ if "Individual" in mode:
             team_output = run_manager()
             trace_log.append({
                 "agent": "Agent 6 — Manager Insights",
+                "pattern": "Threshold-Based Composite Decision",
+                "iq_layer": "Fabric IQ",
                 "duration_ms": round((time.time()-t)*1000),
-                "guardrail": run_guardrails("Manager Insights Agent", team_output)
+                "guardrail": run_guardrails("Manager Insights Agent", team_output),
+                "output": team_output,
             })
 
             total_ms = round((time.time()-t0)*1000)
@@ -399,40 +436,99 @@ if "Individual" in mode:
 
         # ── Pipeline Trace & Guardrails ───────────────────────────
         st.divider()
-        st.markdown("### 🔍 Pipeline Trace — Guardrail Audit Log")
-        st.caption("17-rule guardrail pipeline · Timing · Full auditability")
+        st.markdown("### 🔍 Reasoning Trace — Inspect Every Agent's Thinking")
+        st.caption("Full auditability · 17-rule guardrail pipeline · Per-agent reasoning · Timing breakdown")
 
         trace_log = st.session_state.get("trace_log", [])
         total_ms = st.session_state.get("total_ms", 0)
 
         if trace_log:
-            st.markdown(
-                f"**Total pipeline time:** `{total_ms}ms` · "
-                f"**Agents:** 6 · **Rules checked:** "
-                f"{sum(t['guardrail'].rules_checked for t in trace_log)} · "
-                f"**All passed:** "
-                f"{'✅ Yes' if all(t['guardrail'].passed for t in trace_log) else '❌ No'}"
-            )
+            # Summary metrics
+            col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+            with col_m1:
+                st.metric("Pipeline Time", f"{total_ms}ms")
+            with col_m2:
+                st.metric("Agents", len(trace_log))
+            with col_m3:
+                total_rules = sum(t['guardrail'].rules_checked for t in trace_log)
+                st.metric("Rules Checked", total_rules)
+            with col_m4:
+                total_violations = sum(len(t['guardrail'].violations) for t in trace_log)
+                st.metric("Violations", total_violations)
+
             st.markdown("")
 
             for entry in trace_log:
                 g = entry["guardrail"]
                 status_icon = "✅" if g.passed else "❌"
-                color = "green" if g.passed else "red"
+                output = entry.get("output", {})
+                reasoning = output.get("reasoning", "")
+
                 with st.expander(
-                    f"{status_icon} {entry['agent']} — "
+                    f"{status_icon} {entry['agent']} · "
+                    f"{entry.get('pattern', 'Reasoning Step')} · "
                     f"{entry['duration_ms']}ms · "
-                    f"{g.rules_passed}/{g.rules_checked} rules passed"
+                    f"{g.rules_passed}/{g.rules_checked} rules ✓"
                 ):
-                    col_a, col_b, col_c = st.columns(3)
+                    # Metadata row
+                    col_a, col_b, col_c, col_d = st.columns(4)
                     with col_a:
-                        st.metric("Duration", f"{entry['duration_ms']}ms")
+                        st.metric("IQ Layer", entry.get("iq_layer", "—"))
                     with col_b:
-                        st.metric("Rules Passed",
-                                  f"{g.rules_passed}/{g.rules_checked}")
+                        st.metric("Duration", f"{entry['duration_ms']}ms")
                     with col_c:
+                        st.metric("Rules", f"{g.rules_passed}/{g.rules_checked}")
+                    with col_d:
                         st.metric("Violations", len(g.violations))
 
+                    # Reasoning field — the heart of auditability
+                    if reasoning:
+                        st.markdown("**🧠 Agent Reasoning:**")
+                        st.info(reasoning)
+
+                    # Key outputs by agent type
+                    if "skill_gaps" in output and output["skill_gaps"]:
+                        st.markdown(
+                            f"**Skill Gaps Identified:** "
+                            f"{', '.join(output['skill_gaps'])}"
+                        )
+                    if "missing_prerequisites" in output and output["missing_prerequisites"]:
+                        st.markdown(
+                            f"**Missing Prerequisites:** "
+                            f"{', '.join(output['missing_prerequisites'])}"
+                        )
+                    if "grounding_score_pct" in output:
+                        st.markdown(
+                            f"**Grounding Score:** "
+                            f"{output['grounding_score_pct']}% "
+                            f"({len(output.get('cited_resources', []))} cited resources)"
+                        )
+                    if "domain_hour_allocations" in output:
+                        allocs = output["domain_hour_allocations"]
+                        if allocs:
+                            st.markdown(
+                                f"**Domain Hour Allocation:** "
+                                + ", ".join(
+                                    f"{d}: {h}h" for d, h in allocs.items()
+                                )
+                            )
+                    if "overall_score_pct" in output:
+                        st.markdown(
+                            f"**Assessment Score:** "
+                            f"{output['overall_score_pct']}% · "
+                            f"Signal: `{output.get('readiness_signal', 'N/A')}`"
+                        )
+                    if "critic_review" in output:
+                        cr = output["critic_review"]
+                        if isinstance(cr, dict):
+                            st.markdown(
+                                f"**Critic Review:** Quality "
+                                f"{cr.get('quality_score', 0)}% · "
+                                f"{cr.get('feedback', '')}"
+                            )
+
+                    # Guardrail details
+                    st.markdown("**🛡️ Guardrail Results:**")
                     if g.violations:
                         for v in g.violations:
                             st.error(f"❌ **{v['rule']}:** {v['message']}")
@@ -441,7 +537,7 @@ if "Individual" in mode:
                             st.warning(f"⚠️ **{w['rule']}:** {w['message']}")
                     if not g.violations and not g.warnings:
                         st.success(
-                            "All guardrail rules passed — "
+                            f"All {g.rules_checked} guardrail rules passed — "
                             "output is safe, grounded, and auditable."
                         )
 
