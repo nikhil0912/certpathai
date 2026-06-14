@@ -3,7 +3,30 @@
 > **Microsoft Agents League Hackathon 2026 · Reasoning Agents Track**
 > Built with Microsoft Foundry · Foundry IQ · Work IQ · Fabric IQ
 
-![CertPathAI Architecture](architecture.png)
+![CertPathAI Banner](banner.png)
+
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Open%20App-FF4B4B?style=for-the-badge)](https://certpathai.streamlit.app/)
+[![Tests](https://img.shields.io/badge/tests-33%2F33%20passing-brightgreen?style=for-the-badge)]()
+[![Guardrails](https://img.shields.io/badge/guardrails-17%20rules-a78bfa?style=for-the-badge)]()
+[![Built with](https://img.shields.io/badge/built%20with-GitHub%20Copilot-4ade80?style=for-the-badge)]()
+
+> 🚀 **[Try the live demo →](https://certpathai.streamlit.app/)** — no setup required
+
+---
+
+## 📸 Dashboard Screenshots
+
+### Individual Learner View — Full Reasoning Pipeline
+![Learner View](screenshot_1_learner.png)
+
+### Manager Dashboard — Team Readiness Overview
+![Manager Dashboard](screenshot_2_manager.png)
+
+### Reasoning Trace + Guardrail Audit Log
+![Reasoning Trace](screenshot_3_trace.png)
+
+### Architecture Diagram
+![Architecture](architecture.png)
 
 ---
 
