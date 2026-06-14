@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>CertPathAI — Architecture</title>
+<style>body { margin:0; background:#000; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px; }</style>
+</head><body>
+<svg viewBox="0 0 1200 820" xmlns="http://www.w3.org/2000/svg" width="1200" height="820">
+<defs>
+  <radialGradient id="bg" cx="50%" cy="50%" r="60%"><stop offset="0%" style="stop-color:#0a1530"/><stop offset="100%" style="stop-color:#020617"/></radialGradient>
+  <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" style="stop-color:#60a5fa"/><stop offset="50%" style="stop-color:#a78bfa"/><stop offset="100%" style="stop-color:#4ade80"/>
+  </linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="softGlow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#60a5fa"/></marker>
+  <marker id="arrG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#4ade80"/></marker>
+  <radialGradient id="ng-blue" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.85"/><stop offset="70%" style="stop-color:#1e40af;stop-opacity:0.3"/><stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:0"/></radialGradient>
+  <radialGradient id="ng-green" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#10b981;stop-opacity:0.85"/><stop offset="70%" style="stop-color:#047857;stop-opacity:0.3"/><stop offset="100%" style="stop-color:#065f46;stop-opacity:0"/></radialGradient>
+  <radialGradient id="ng-purple" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#a78bfa;stop-opacity:0.85"/><stop offset="70%" style="stop-color:#7c3aed;stop-opacity:0.3"/><stop offset="100%" style="stop-color:#5b21b6;stop-opacity:0"/></radialGradient>
+  <radialGradient id="ng-cyan" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#06b6d4;stop-opacity:0.85"/><stop offset="70%" style="stop-color:#0e7490;stop-opacity:0.3"/><stop offset="100%" style="stop-color:#155e75;stop-opacity:0"/></radialGradient>
+  <radialGradient id="ng-pink" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#ec4899;stop-opacity:0.85"/><stop offset="70%" style="stop-color:#be185d;stop-opacity:0.3"/><stop offset="100%" style="stop-color:#9d174d;stop-opacity:0"/></radialGradient>
+  <radialGradient id="ng-amber" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:#fbbf24;stop-opacity:0.9"/><stop offset="70%" style="stop-color:#d97706;stop-opacity:0.3"/><stop offset="100%" style="stop-color:#92400e;stop-opacity:0"/></radialGradient>
+</defs>
+
+<rect width="1200" height="820" fill="url(#bg)"/>
+
+<!-- grid -->
+<g opacity="0.04">
+<line x1="0" y1="100" x2="1200" y2="100" stroke="#60a5fa"/>
+<line x1="0" y1="280" x2="1200" y2="280" stroke="#60a5fa"/>
+<line x1="0" y1="500" x2="1200" y2="500" stroke="#60a5fa"/>
+<line x1="0" y1="660" x2="1200" y2="660" stroke="#60a5fa"/>
+<line x1="240" y1="0" x2="240" y2="820" stroke="#60a5fa"/>
+<line x1="480" y1="0" x2="480" y2="820" stroke="#60a5fa"/>
+<line x1="720" y1="0" x2="720" y2="820" stroke="#60a5fa"/>
+<line x1="960" y1="0" x2="960" y2="820" stroke="#60a5fa"/>
+</g>
+
+<!-- Title -->
+<text x="600" y="46" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700" fill="url(#titleGrad)" filter="url(#glow)">🎯 CertPathAI</text>
+<text x="600" y="68" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="13" fill="#94a3b8">Multi-Agent Certification Readiness System for Engineering Teams</text>
+<text x="600" y="86" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#64748b" letter-spacing="3">REASONING AGENTS TRACK · MICROSOFT AGENTS LEAGUE 2026</text>
+
+<!-- IQ Layer badges -->
+<g transform="translate(420, 110)">
+  <rect x="0" y="0" width="120" height="28" rx="14" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1"/>
+  <text x="60" y="18" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" font-weight="600" fill="#60a5fa">⬡ FOUNDRY IQ</text>
+</g>
+<g transform="translate(550, 110)">
+  <rect x="0" y="0" width="100" height="28" rx="14" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
+  <text x="50" y="18" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" font-weight="600" fill="#4ade80">⬡ WORK IQ</text>
+</g>
+<g transform="translate(660, 110)">
+  <rect x="0" y="0" width="110" height="28" rx="14" fill="rgba(167,139,250,0.15)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="55" y="18" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" font-weight="600" fill="#a78bfa">⬡ FABRIC IQ</text>
+</g>
+
+<!-- Pipeline arrows top row -->
+<path d="M 200 240 Q 280 240 360 240" stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.5" marker-end="url(#arr)"/>
+<path d="M 480 240 Q 560 240 640 240" stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.5" marker-end="url(#arr)"/>
+<path d="M 760 240 Q 840 240 920 240" stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.5" marker-end="url(#arr)"/>
+<!-- Vertical down from Agent 3 -->
+<path d="M 1040 280 L 1040 380" stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.5" marker-end="url(#arr)"/>
+<!-- Bottom row right to left -->
+<path d="M 920 420 Q 840 420 760 420" stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.5" marker-end="url(#arr)"/>
+<path d="M 640 420 Q 560 420 480 420" stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.5" marker-end="url(#arr)"/>
+
+<!-- Particles -->
+<circle cx="280" cy="240" r="2.5" fill="#60a5fa" filter="url(#softGlow)"/>
+<circle cx="560" cy="240" r="2.5" fill="#60a5fa" filter="url(#softGlow)"/>
+<circle cx="840" cy="240" r="2.5" fill="#60a5fa" filter="url(#softGlow)"/>
+<circle cx="840" cy="420" r="2.5" fill="#60a5fa" filter="url(#softGlow)"/>
+<circle cx="560" cy="420" r="2.5" fill="#60a5fa" filter="url(#softGlow)"/>
+
+<!-- Agent 1: Profiler -->
+<g transform="translate(160, 240)">
+  <circle cx="0" cy="0" r="55" fill="url(#ng-blue)" filter="url(#glow)"/>
+  <circle cx="0" cy="0" r="36" fill="rgba(2,6,23,0.85)" stroke="#3b82f6" stroke-width="2"/>
+  <text x="0" y="-3" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="22">👤</text>
+  <text x="0" y="16" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" fill="#60a5fa">AGENT 1</text>
+</g>
+<text x="160" y="320" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">Learner Profiler</text>
+<text x="160" y="338" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#94a3b8">Fabric IQ semantic</text>
+<text x="160" y="352" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#64748b">Skill gap + prereq check</text>
+
+<!-- Agent 2: Curator -->
+<g transform="translate(440, 240)">
+  <circle cx="0" cy="0" r="55" fill="url(#ng-green)" filter="url(#glow)"/>
+  <circle cx="0" cy="0" r="36" fill="rgba(2,6,23,0.85)" stroke="#10b981" stroke-width="2"/>
+  <text x="0" y="-3" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="22">📚</text>
+  <text x="0" y="16" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" fill="#4ade80">AGENT 2</text>
+</g>
+<text x="440" y="320" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">Path Curator</text>
+<text x="440" y="338" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#94a3b8">Foundry IQ grounded</text>
+<text x="440" y="352" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#64748b">Cited resources</text>
+
+<!-- Agent 3: Planner -->
+<g transform="translate(720, 240)">
+  <circle cx="0" cy="0" r="55" fill="url(#ng-purple)" filter="url(#glow)"/>
+  <circle cx="0" cy="0" r="36" fill="rgba(2,6,23,0.85)" stroke="#a78bfa" stroke-width="2"/>
+  <text x="0" y="-3" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="22">🧠</text>
+  <text x="0" y="16" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" fill="#a78bfa">AGENT 3</text>
+</g>
+<text x="720" y="320" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">Study Planner</text>
+<text x="720" y="338" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#94a3b8">Planner → Executor</text>
+<text x="720" y="352" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#64748b">Largest Remainder algo</text>
+
+<!-- Agent 6: Manager (Decision - CENTRAL/LARGER) -->
+<g transform="translate(1040, 330)">
+  <circle cx="0" cy="0" r="68" fill="url(#ng-amber)" filter="url(#glow)"/>
+  <circle cx="0" cy="0" r="44" fill="rgba(2,6,23,0.9)" stroke="#fbbf24" stroke-width="3"/>
+  <text x="0" y="-3" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="24">⚖️</text>
+  <text x="0" y="18" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" fill="#fbbf24">AGENT 6</text>
+</g>
+<text x="1040" y="420" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="700" fill="#fbbf24">Manager Decision</text>
+<text x="1040" y="438" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#94a3b8">Composite scoring</text>
+
+<!-- Agent 5: Assessment -->
+<g transform="translate(720, 480)">
+  <circle cx="0" cy="0" r="55" fill="url(#ng-pink)" filter="url(#glow)"/>
+  <circle cx="0" cy="0" r="36" fill="rgba(2,6,23,0.85)" stroke="#ec4899" stroke-width="2"/>
+  <text x="0" y="-3" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="22">📝</text>
+  <text x="0" y="16" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" fill="#ec4899">AGENT 5</text>
+</g>
+<text x="720" y="560" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">Assessment</text>
+<text x="720" y="578" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#94a3b8">Critic → Verifier</text>
+<text x="720" y="592" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#64748b">Grounded questions</text>
+
+<!-- Agent 4: Engagement -->
+<g transform="translate(440, 480)">
+  <circle cx="0" cy="0" r="55" fill="url(#ng-cyan)" filter="url(#glow)"/>
+  <circle cx="0" cy="0" r="36" fill="rgba(2,6,23,0.85)" stroke="#06b6d4" stroke-width="2"/>
+  <text x="0" y="-3" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="22">🔔</text>
+  <text x="0" y="16" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" font-weight="700" fill="#06b6d4">AGENT 4</text>
+</g>
+<text x="440" y="560" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="13" font-weight="600" fill="#e2e8f0">Engagement</text>
+<text x="440" y="578" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#94a3b8">Work IQ signals</text>
+<text x="440" y="592" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#64748b">Rhythm + reminders</text>
+
+<!-- Decisions box on bottom-left -->
+<g transform="translate(160, 480)">
+  <rect x="-95" y="-55" width="190" height="32" rx="6" fill="rgba(34,197,94,0.1)" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="0" y="-35" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="700" fill="#4ade80">✅ GO</text>
+  
+  <rect x="-95" y="-15" width="190" height="32" rx="6" fill="rgba(251,191,36,0.1)" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="0" y="6" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="700" fill="#fbbf24">⚠ CONDITIONAL GO</text>
+  
+  <rect x="-95" y="25" width="190" height="32" rx="6" fill="rgba(239,68,68,0.1)" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="0" y="46" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="700" fill="#f87171">✗ NOT YET</text>
+</g>
+<text x="160" y="570" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="10" fill="#64748b" letter-spacing="2">FINAL DECISIONS</text>
+<line x1="280" y1="480" x2="358" y2="480" stroke="#60a5fa" stroke-width="1.5" opacity="0.5" marker-end="url(#arr)"/>
+
+<!-- Guardrail layer (bottom) -->
+<g transform="translate(80, 640)">
+  <rect x="0" y="0" width="1040" height="80" rx="12" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.3)" stroke-width="1.5"/>
+  <text x="520" y="24" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" font-weight="700" fill="#a78bfa" letter-spacing="2">🛡️ 17-RULE GUARDRAIL PIPELINE — VALIDATES EVERY AGENT OUTPUT</text>
+  <g transform="translate(140, 56)">
+    <text x="0" y="0" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#e2e8f0"><tspan font-weight="700" fill="#60a5fa">R01–R04</tspan> Schema</text>
+  </g>
+  <g transform="translate(340, 56)">
+    <text x="0" y="0" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#e2e8f0"><tspan font-weight="700" fill="#ef4444">R05–R08</tspan> Safety</text>
+  </g>
+  <g transform="translate(540, 56)">
+    <text x="0" y="0" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#e2e8f0"><tspan font-weight="700" fill="#a78bfa">R09–R11</tspan> Grounding</text>
+  </g>
+  <g transform="translate(740, 56)">
+    <text x="0" y="0" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#e2e8f0"><tspan font-weight="700" fill="#fbbf24">R12–R15</tspan> Logic</text>
+  </g>
+  <g transform="translate(930, 56)">
+    <text x="0" y="0" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" fill="#e2e8f0"><tspan font-weight="700" fill="#4ade80">R16–R17</tspan> Privacy</text>
+  </g>
+</g>
+
+<!-- Up arrow from guardrails to agents -->
+<line x1="600" y1="640" x2="600" y2="610" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+<!-- Metrics bar -->
+<rect x="80" y="740" width="1040" height="60" rx="10" fill="rgba(15,23,42,0.6)" stroke="rgba(99,102,241,0.15)" stroke-width="1"/>
+<text x="160" y="762" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="800" fill="#60a5fa">6</text>
+<text x="160" y="782" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="9" fill="#94a3b8" letter-spacing="1">AI AGENTS</text>
+<text x="330" y="762" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="800" fill="#a78bfa">17</text>
+<text x="330" y="782" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="9" fill="#94a3b8" letter-spacing="1">GUARDRAIL RULES</text>
+<text x="500" y="762" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="800" fill="#4ade80">3</text>
+<text x="500" y="782" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="9" fill="#94a3b8" letter-spacing="1">IQ LAYERS</text>
+<text x="670" y="762" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="800" fill="#06b6d4">33</text>
+<text x="670" y="782" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="9" fill="#94a3b8" letter-spacing="1">EVAL TESTS · 100%</text>
+<text x="840" y="762" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="800" fill="#fbbf24">&lt;50ms</text>
+<text x="840" y="782" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="9" fill="#94a3b8" letter-spacing="1">PIPELINE TIME</text>
+<text x="1020" y="762" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="800" fill="#ec4899">5</text>
+<text x="1020" y="782" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="9" fill="#94a3b8" letter-spacing="1">AZURE CERTS</text>
+
+<!-- Built with Copilot badge -->
+<g transform="translate(950, 60)">
+  <rect x="0" y="0" width="200" height="26" rx="13" fill="rgba(74,222,128,0.1)" stroke="#4ade80" stroke-width="1"/>
+  <text x="100" y="18" text-anchor="middle" font-family="Segoe UI,Arial,sans-serif" font-size="11" font-weight="600" fill="#4ade80">◈ BUILT WITH GITHUB COPILOT</text>
+</g>
+
+<rect x="2" y="2" width="1196" height="816" rx="14" fill="none" stroke="rgba(99,102,241,0.15)" stroke-width="2"/>
+</svg>
+</body></html>
